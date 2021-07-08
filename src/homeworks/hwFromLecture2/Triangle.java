@@ -21,6 +21,32 @@ public class Triangle implements Shape {
         this.color = color;
     }
 
+    public double getA() {
+        return this.a;
+    }
+    public double getB() {
+        return this.b;
+    }
+    public double getC() {
+        return this.c;
+    }
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setA(double a) {
+        this.a = a;
+    }
+    public void setB(double b) {
+        this.b = b;
+    }
+    public void setC(double c) {
+        this.c = c;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public double getArea() {
         double p = (a + b + c) / 2;

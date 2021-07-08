@@ -15,6 +15,19 @@ public class Square implements Shape {
         this.color = color;
     }
 
+    public double getA() {
+        return this.a;
+    }
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setA(double a) {
+        this.a = a;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     @Override
     public double getArea() {

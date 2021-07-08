@@ -18,6 +18,26 @@ public class Ellipse implements Shape {
         this.color = color;
     }
 
+    public double getA() {
+        return this.a;
+    }
+    public double getB() {
+        return this.b;
+    }
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setA(double a) {
+        this.a = a;
+    }
+    public void setB(double b) {
+        this.b = b;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public double getArea() {
         return Math.PI * a * b;
