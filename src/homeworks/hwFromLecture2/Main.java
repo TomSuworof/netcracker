@@ -12,6 +12,6 @@ public class Main {
 
         List<Shape> shapes = Arrays.asList(circle, square, ellipse, triangle);
 
-        shapes.forEach((System.out::println));
+        shapes.forEach(System.out::println);
     }
 }
