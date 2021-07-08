@@ -1,4 +1,5 @@
-## Homework for lecture 2 (07.07.2021)
+# Main
+## Homework from lecture 1 (05.07.2021)
 
 **Задание:**
 1. поставить JVM на рабочие машины + IDE (лучше intellij idea все примеры будут на ней )
@@ -7,14 +8,14 @@
 
 **Выполнение:**
 
-Файл для задания: ```Main.java```
+Файл для задания: [```Main.java```](Main.java)
 
 1) Перейти в папку с заданием
 
 2) Компилировать в терминале командой
 ```javac homeworks\hwForLecture2\Main.java```
    
-3) Запускать командой ```java -cp . homeworks.hwForLecture2.Main something```,
+3) Запускать командой ```java -cp . homeworks.hwFromLecture1.Main something```,
    где ```something``` - какая-нибудь переменная,
    которая будет передана как ```args[0]```
    

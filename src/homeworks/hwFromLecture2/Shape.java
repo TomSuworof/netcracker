@@ -1,4 +1,4 @@
-package homeworks.hwForLecture3;
+package homeworks.hwFromLecture2;
 
 public interface Shape {
     double getArea();
