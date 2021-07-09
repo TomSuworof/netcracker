@@ -7,10 +7,16 @@ public class Circle implements Shape {
     public Circle() {}
 
     public Circle(double radius) {
+        if (radius < 0) {
+            throw new IllegalStateException("Radius can not be negative: " + radius);
+        }
         this.radius = radius;
     }
 
     public Circle(double radius, String color) {
+        if (radius < 0) {
+            throw new IllegalStateException("Radius can not be negative: " + radius);
+        }
         this.radius = radius;
         this.color = color;
     }
@@ -23,6 +29,9 @@ public class Circle implements Shape {
     }
 
     public void setRadius(double radius) {
+        if (radius < 0) {
+            throw new IllegalStateException("Radius can not be negative: " + radius);
+        }
         this.radius = radius;
     }
     public void setColor(String color) {

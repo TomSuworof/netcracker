@@ -7,10 +7,16 @@ public class Square implements Shape {
     public Square() {}
 
     public Square(double a) {
+        if (a < 0) {
+            throw new IllegalStateException("Side A can not be negative: " + a);
+        }
         this.a = a;
     }
 
     public Square(double a, String color) {
+        if (a < 0) {
+            throw new IllegalStateException("Side A can not be negative: " + a);
+        }
         this.a = a;
         this.color = color;
     }
@@ -23,6 +29,9 @@ public class Square implements Shape {
     }
 
     public void setA(double a) {
+        if (a < 0) {
+            throw new IllegalStateException("Side A can not be negative: " + a);
+        }
         this.a = a;
     }
     public void setColor(String color) {

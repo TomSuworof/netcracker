@@ -1,4 +1,4 @@
-#Palindrome
+# Palindrome
 ## Homework from lecture 3 (09.07.2021)
 
 **Задачи:**

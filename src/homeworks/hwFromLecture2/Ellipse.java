@@ -8,11 +8,17 @@ public class Ellipse implements Shape {
     public Ellipse() {}
 
     public Ellipse(double a, double b) {
+        if (a < 0 || b < 0) {
+            throw new IllegalStateException("Sides A and B can not be negative: " + a + ' ' + b);
+        }
         this.a = a;
         this.b = b;
     }
 
     public Ellipse(double a, double b, String color) {
+        if (a < 0 || b < 0) {
+            throw new IllegalStateException("Sides A and B can not be negative: " + a + ' ' + b);
+        }
         this.a = a;
         this.b = b;
         this.color = color;
@@ -29,9 +35,15 @@ public class Ellipse implements Shape {
     }
 
     public void setA(double a) {
+        if (a < 0) {
+            throw new IllegalStateException("Side A can not be negative: " + a);
+        }
         this.a = a;
     }
     public void setB(double b) {
+        if (b < 0) {
+            throw new IllegalStateException("Side B can not be negative: " + b);
+        }
         this.b = b;
     }
     public void setColor(String color) {
