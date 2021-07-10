@@ -36,4 +36,20 @@ public class PalindromeTest {
 
         Assert.assertFalse(palindrome.isPalindrome(x));
     }
+
+    @Test
+    public void getCorrectAnswerFor0() {
+        int x = 0;
+        Palindrome palindrome = new PalindromeChecker();
+
+        Assert.assertTrue(palindrome.isPalindrome(x));
+    }
+
+    @Test
+    public void getCorrectAnswerForMinus0() {
+        int x = -0;
+        Palindrome palindrome = new PalindromeChecker();
+
+        Assert.assertTrue(palindrome.isPalindrome(x));
+    }
 }
