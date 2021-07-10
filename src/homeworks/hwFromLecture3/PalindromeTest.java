@@ -52,4 +52,12 @@ public class PalindromeTest {
 
         Assert.assertTrue(palindrome.isPalindrome(x));
     }
+
+    @Test
+    public void getCorrectAnswerForLargeNumber() {
+        int x = 691232196;
+        Palindrome palindrome = new PalindromeChecker();
+
+        Assert.assertTrue(palindrome.isPalindrome(x));
+    }
 }
