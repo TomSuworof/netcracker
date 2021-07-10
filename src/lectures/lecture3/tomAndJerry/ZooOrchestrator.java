@@ -14,30 +14,34 @@ public class ZooOrchestrator {
         animal.move(point);
         List<Animal> relatedAnimals = zoo.getAnimalsInPoint(point);
 
-        System.out.println(animal.getPriority());
-
         boolean isAnyOneEaten = false;
         for (Animal relatedAnimal : relatedAnimals) {
             if (relatedAnimal.eat(animal)) {
                 zoo.remove(animal);
+                System.out.println(animal + " was eaten");
                 return true;
             } else if (animal.eat(relatedAnimal)) {
                 zoo.remove(relatedAnimal);
+                System.out.println(relatedAnimal + " was eaten");
                 isAnyOneEaten = true;
             }
         }
         return isAnyOneEaten;
     }
 
-    private boolean checkAnimalPlace(Animal animal, Animal relatedAnimal) {
-        if (relatedAnimal.eat(animal)) {
-            zoo.remove(animal);
-            return true;
-        } else if (animal.eat(relatedAnimal)) {
-            zoo.remove(relatedAnimal);
-            return true;
-        } else {
-            return false;
-        }
+//    private boolean checkAnimalPlace(Animal animal, Animal relatedAnimal) {
+//        if (relatedAnimal.eat(animal)) {
+//            zoo.remove(animal);
+//            return true;
+//        } else if (animal.eat(relatedAnimal)) {
+//            zoo.remove(relatedAnimal);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public Zoo getZoo() {
+        return zoo;
     }
 }

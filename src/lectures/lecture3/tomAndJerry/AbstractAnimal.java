@@ -14,7 +14,7 @@ public abstract class AbstractAnimal implements Animal {
     @Override
     public void move(Point point) {
         this.point = point;
-        System.out.println("I moved");
+        System.out.println(this + ": \"I moved\"");
     }
 
     public Point getPoint() {
@@ -34,5 +34,12 @@ public abstract class AbstractAnimal implements Animal {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "{" +
+                "point=(" + point.getX() + "; " + point.getY() +
+                ")}";
     }
 }

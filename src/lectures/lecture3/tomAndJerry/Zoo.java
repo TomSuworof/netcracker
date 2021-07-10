@@ -32,4 +32,8 @@ public class Zoo {
         }
         return result;
     }
+
+    public List<Animal> getAnimals() {
+        return animals;
+    }
 }
