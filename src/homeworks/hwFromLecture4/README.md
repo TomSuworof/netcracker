@@ -15,12 +15,24 @@
 
 * в качестве матрицы нужно использовать [MatrixImpl](MatrixImpl.java)
 
-### Срок Сдачи
+#### Срок Сдачи
 19.07.2021
 
-### UML в качестве помощи
+#### UML в качестве помощи
 
 ![img.png](img.png)
 
 ### Выполнение:
 
+1. Транспонирование реализовано в классе [```TansposedMatrix.java```](TransposedMatrix.java)
+   Сложение реализовано в классе [```SumOfTwoMatrices.java```](SumOfTwoMatrices.java)
+   
+2. Тесты:
+
+![img_1.png](img_1.png)
+
+![img_2.png](img_2.png)
+
+3. Что произошло в Main:
+
+![img_3.png](img_3.png)
