@@ -1,6 +1,6 @@
 package homeworks.hwFromLecture4;
 
-public class AbstractMatrixOperation implements Matrix {
+public abstract class AbstractMatrixOperation implements Matrix {
 
     protected Matrix matrix;
 

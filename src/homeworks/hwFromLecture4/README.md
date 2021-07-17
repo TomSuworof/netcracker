@@ -24,8 +24,7 @@
 
 ### Выполнение:
 
-1. Транспонирование реализовано в классе [```TansposedMatrix.java```](TransposedMatrix.java)
-   Сложение реализовано в классе [```SumOfTwoMatrices.java```](SumOfTwoMatrices.java)
+1. Транспонирование реализовано в классе [```TansposedMatrix.java```](TransposedMatrix.java). Сложение реализовано в классе [```SumOfTwoMatrices.java```](SumOfTwoMatrices.java)
    
 2. Тесты:
 
