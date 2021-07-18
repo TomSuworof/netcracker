@@ -1,20 +1,14 @@
 package homeworks.hwFromLecture4;
 
-import java.util.Arrays;
-
 public class TransposedMatrix extends AbstractMatrixOperation {
+    private final Matrix a;
 
     public TransposedMatrix(Matrix a) {
-        int[][] matrixA = this.getMatrixAs2DArray(a);
-        int[][] aMinus1 = new int[this.countColumns(a)][this.countRows(a)];
+        this.a = a;
+    }
 
-        for (int i = 0; i < matrixA.length; i++) {
-            for (int j = 0; j < matrixA[0].length; j++) {
-                aMinus1[j][i] = matrixA[i][j];
-            }
-        }
-
-        System.out.println(Arrays.deepToString(aMinus1));
-        this.matrix = new MatrixImpl(aMinus1);
+    @Override
+    public int getElement(int i, int j) throws ArrayIndexOutOfBoundsException {
+        return a.getElement(j, i);
     }
 }

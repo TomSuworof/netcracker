@@ -15,16 +15,16 @@
 
 2. Площади
 
-![img.png](img.png)
+![img.png](../../../images/hwFromLecture2/img.png)
 
 3. Тесты
 
-![img_1.png](img_1.png)
+![img_1.png](../../../images/hwFromLecture2/img_1.png)
 
-![img_3.png](img_3.png)
+![img_3.png](../../../images/hwFromLecture2/img_3.png)
 
-![img_4.png](img_4.png)
+![img_4.png](../../../images/hwFromLecture2/img_4.png)
 
-![img_5.png](img_5.png)
+![img_5.png](../../../images/hwFromLecture2/img_5.png)
 
-![img_6.png](img_6.png)
+![img_6.png](../../../images/hwFromLecture2/img_6.png)

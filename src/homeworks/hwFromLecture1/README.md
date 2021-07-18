@@ -19,4 +19,4 @@
    где ```something``` - какая-нибудь переменная,
    которая будет передана как ```args[0]```
    
-![img.png](img.png)
+![img.png](../../../images/hwFromLecture1/img.png)

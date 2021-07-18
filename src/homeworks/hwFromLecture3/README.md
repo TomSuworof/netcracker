@@ -16,8 +16,8 @@
 
 2. Пример:
 
-![img.png](img.png)
+![img.png](../../../images/hwFromLecture3/img.png)
 
 3. Тесты:
 
-![img_3.png](img_3.png)
+![img_3.png](../../../images/hwFromLecture3/img_3.png)

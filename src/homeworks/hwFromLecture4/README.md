@@ -20,7 +20,7 @@
 
 #### UML в качестве помощи
 
-![img.png](img.png)
+![img.png](../../../images/hwFromLecture4/img.png)
 
 ### Выполнение:
 
@@ -28,10 +28,10 @@
    
 2. Тесты:
 
-![img_1.png](img_1.png)
+![img.png](../../../images/hwFromLecture4/img_1.png)
 
-![img_2.png](img_2.png)
+![img.png](../../../images/hwFromLecture4/img_2.png)
 
 3. Что произошло в Main:
 
-![img_3.png](img_3.png)
+![img.png](../../../images/hwFromLecture4/img_3.png)

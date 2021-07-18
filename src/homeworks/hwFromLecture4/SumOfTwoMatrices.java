@@ -1,20 +1,16 @@
 package homeworks.hwFromLecture4;
 
-import java.util.Arrays;
-
 public class SumOfTwoMatrices extends AbstractMatrixOperation {
+    private final Matrix a;
+    private final Matrix b;
 
     public SumOfTwoMatrices(Matrix a, Matrix b) {
-        int[][] matrixA = this.getMatrixAs2DArray(a);
-        int[][] matrixB = this.getMatrixAs2DArray(b);
+        this.a = a;
+        this.b = b;
+    }
 
-        for (int i = 0; i < matrixA.length; i++) {
-            for (int j = 0; j < matrixA[0].length; j++) {
-                matrixA[i][j] += matrixB[i][j];
-            }
-        }
-
-        System.out.println(Arrays.deepToString(matrixA));
-        this.matrix = new MatrixImpl(matrixA);
+    @Override
+    public int getElement(int i, int j) throws ArrayIndexOutOfBoundsException {
+        return a.getElement(i, j) + b.getElement(i, j);
     }
 }
