@@ -34,4 +34,4 @@
 
 3. Что произошло в Main:
 
-![img.png](../../../images/hwFromLecture4/img_3.png)
+![img.png](../../../images/hwFromLecture4/img_4.png)

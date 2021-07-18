@@ -1,5 +1,7 @@
 package homeworks.hwFromLecture4;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         int[][] a = {{1, 2, 3},
@@ -23,6 +25,10 @@ public class Main {
         System.out.println(resultOfTransposed); // [[8,  5], [10, 7], [12, 9]]
 
         Matrix strange = new SumOfTwoMatrices(matrixA, transposedA);
+
+        System.out.println();
+        System.out.println(Arrays.deepToString(a));
+        System.out.println(transposedA);
         System.out.println(strange); // strange matrix
     }
 }
