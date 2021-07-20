@@ -4,7 +4,7 @@ import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Cage;
 import homeworks.hwFromLecture7.model.Species;
 import homeworks.hwFromLecture7.model.cages.CageForGiraffe;
-import homeworks.hwFromLecture7.model.cages.CageForLeon;
+import homeworks.hwFromLecture7.model.cages.CageForLion;
 import homeworks.hwFromLecture7.model.cages.CageForPenguin;
 import homeworks.hwFromLecture7.model.cages.CageForSquirrel;
 import homeworks.hwFromLecture7.services.ZooLogger;
@@ -29,13 +29,13 @@ public class MyZoo implements Zoo {
     public void checkInAnimal(Animal animal) {
         for (Animal animalWeHave : animals.values()) {
             if (animalWeHave.getName().equals(animal.getName())) {
-                throw new IllegalArgumentException("We already have " + animalWeHave.getName() + ". It is " + animal.getSpecies());
+                throw new IllegalArgumentException("We already have " + animalWeHave.getName() + ". It is " + animalWeHave.getSpecies());
             }
         }
 
         boolean put = false;
         for (int i = 0; i < cages.size(); i++) {
-            if (cages.get(i).isVacantCage()) {
+            if (cages.get(i).isVacantCage() && cages.get(i).getCondition().isAvailableFor().contains(animal.getSpecies())) {
                 cages.set(i, ZooBuilder.getCageForAnimalWithAnimal(
                         cages.get(i).getNumber(),
                         cages.get(i).getArea(),
@@ -114,7 +114,7 @@ public class MyZoo implements Zoo {
 
         private static Cage getCageForAnimalWithAnimal(int number, double area, Species species, Animal animal) {
 //            switch (species) {
-//                case LEON:
+//                case LION:
 //                    return new CageForLeon(number, area, animal);
 //                case GIRAFFE:
 //                    return new CageForGiraffe(number, area, animal);
@@ -126,7 +126,7 @@ public class MyZoo implements Zoo {
 //                    throw new IllegalArgumentException("We can not have this kind of animal");
 //            }
             return switch (species) {
-                case LEON -> new CageForLeon(number, area, animal);
+                case LION -> new CageForLion(number, area, animal);
                 case GIRAFFE -> new CageForGiraffe(number, area, animal);
                 case PENGUIN -> new CageForPenguin(number, area, animal);
                 case SQUIRREL -> new CageForSquirrel(number, area, animal);

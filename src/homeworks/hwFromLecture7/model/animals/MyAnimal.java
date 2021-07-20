@@ -45,7 +45,7 @@ public abstract class MyAnimal implements Animal {
 
         public Animal getAnimal(String species, String name) {
 //            switch (species.toLowerCase()) {
-//                case "leon":
+//                case "lion":
 //                    return new Leon(name);
 //                case "giraffe":
 //                    return new Giraffe(name);
@@ -57,7 +57,7 @@ public abstract class MyAnimal implements Animal {
 //                    throw new IllegalArgumentException("We can not have this kind of animal");
 //            }
             return switch (species.toLowerCase()) {
-                case "leon" -> new Leon(name);
+                case "lion" -> new Lion(name);
                 case "giraffe" -> new Giraffe(name);
                 case "penguin" -> new Penguin(name);
                 case "squirrel" -> new Squirrel(name);

@@ -2,40 +2,46 @@ package homeworks.hwFromLecture7.parsers;
 
 import homeworks.hwFromLecture7.Zoo;
 import homeworks.hwFromLecture7.model.Animal;
+import homeworks.hwFromLecture7.model.Species;
 import homeworks.hwFromLecture7.model.animals.*;
 
-import java.io.BufferedReader;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.IllegalFormatException;
 
 public class ConsoleParser implements Parser {
-    private final BufferedReader reader;
     private Zoo zoo;
 
-    public ConsoleParser() {
-        reader = new BufferedReader(new InputStreamReader(System.in));
-    }
+    @Override
+    public void parse(String expression) {
+        try {
+            String command = expression.trim().split(" ")[0];
 
-    public void parse(String expression) throws IOException {
-        if (reader.ready()) {
-            String[] parts = expression.split(" ");
-            String command = parts[0];
-            String species = parts[1];
-            String name = parts[2];
+            if (command.equals("log")) {
+                zoo.getHistory().forEach(System.out::println);
+            } else if (command.equals("check-in")) {
+                String animalData = expression.substring(command.length()).trim();
+                String species = animalData.split(" ")[0];
+                String name = animalData.split(" ")[1];
 
-            Animal animal = createAnimal(species, name);
+                checkInAnimal(species, name);
+//                switch (command) {
+//                    case "check-in" -> checkInAnimal(species, name);
+//                    case "check-out" ->
+//                    case "exit" -> {}
+//                    default -> throw new IllegalArgumentException("I do not know this command. Try again");
+//                }
+            } else if (command.equals("check-out")) {
+                String name = expression.substring(command.length()).trim();
 
-            switch (command) {
-                case "check-in" -> zoo.checkInAnimal(animal);
-                case "check-out" -> zoo.checkOutAnimal(animal);
-                case "log" -> zoo.getHistory().forEach(System.out::println);
-                case "exit" -> throw new EOFException();
-                default -> throw new IllegalArgumentException("I do not know this command. Try again");
+                checkOutAnimal(name);
+            } else if (command.equals("exit")) {
+                System.out.println("Exiting...");
+            } else {
+                throw new IllegalArgumentException("I do not know this command. Try again");
             }
-
-        } else {
-            throw new IOException("Reader is not ready");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("I do not know this operation. Check your input");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -44,13 +50,28 @@ public class ConsoleParser implements Parser {
         this.zoo = zoo;
     }
 
-    private Animal createAnimal(String species, String name) {
+    private Animal createAnimal(String species, String name) throws IllegalFormatException {
         return new MyAnimal.AnimalBuilder().getAnimal(species, name);
     }
 
-    public void close() {
-        try {
-            reader.close();
-        } catch (IOException ignored) {}
+    private void checkInAnimal(String species, String name) {
+        zoo.checkInAnimal(createAnimal(species, name));
+    }
+
+    private void checkOutAnimal(String name) {
+        System.out.println("Searching through our pets...");
+
+        boolean found = false;
+        for (Species species : Species.values()) {
+            try {
+                zoo.checkOutAnimal(createAnimal(species.toString(), name));
+                found = true;
+                break;
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+        if (!found) {
+            System.out.println("We do not have " + name);
+        }
     }
 }

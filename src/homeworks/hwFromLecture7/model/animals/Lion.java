@@ -2,9 +2,9 @@ package homeworks.hwFromLecture7.model.animals;
 
 import homeworks.hwFromLecture7.model.Species;
 
-public class Leon extends MyAnimal {
-    public Leon(String name) {
+public class Lion extends MyAnimal {
+    public Lion(String name) {
         super(name);
-        this.species = Species.LEON;
+        this.species = Species.LION;
     }
 }

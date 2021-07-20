@@ -5,10 +5,10 @@ import homeworks.hwFromLecture7.model.Species;
 
 import java.util.List;
 
-public class CageForLeon extends MyCage {
-    public CageForLeon(int number, double area, Animal animal) {
+public class CageForLion extends MyCage {
+    public CageForLion(int number, double area, Animal animal) {
         super(number, area);
-        this.condition = () -> List.of(Species.LEON);
+        this.condition = () -> List.of(Species.LION);
         setAnimal(animal);
     }
 }
