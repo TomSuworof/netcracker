@@ -127,4 +127,4 @@ InhibitionLog{checkInDate=Wed Jul 21 10:06:20 MSK 2021, checkOutDate=Wed Jul 21 
 Exiting...
 ```
 
-P.S.: задаётся с помощью ZooBuilder. См. комментарии в [Main](Main.java)
+P.S.: задаётся с помощью ZooBuilder. См. комментарии в [Main](https://github.com/TomSuworof/netcracker/blob/a29cd3b9784e7827dd2311797a9a40013ef33abe/src/homeworks/hwFromLecture7/Main.java#L20)
