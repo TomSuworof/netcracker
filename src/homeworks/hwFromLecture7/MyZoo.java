@@ -70,7 +70,7 @@ public class MyZoo implements Zoo {
                         animal.getSpecies(),
                         null
                 ));
-                animals.remove(i);
+                animals.remove(cages.get(i).getNumber());
                 excluded = true;
                 break;
             }

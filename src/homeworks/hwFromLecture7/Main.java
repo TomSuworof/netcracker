@@ -17,6 +17,7 @@ public class Main {
                 .buildCageFor(Species.GIRAFFE, 2, 100)
                 .buildCageFor(Species.PENGUIN, 3, 40)
                 .buildCageFor(Species.SQUIRREL, 4, 20)
+//                .buildCageFor(Species.LION, 5, 200) // это позволяет добавить ещё одну клетку для льва
                 .build();
 
         Parser parser = new ConsoleParser();
@@ -26,6 +27,7 @@ public class Main {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String input;
             do {
+                System.out.print("> ");
                 input = reader.readLine();
                 parser.parse(input);
             } while (!input.equals("exit"));

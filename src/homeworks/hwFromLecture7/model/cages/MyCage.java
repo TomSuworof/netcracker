@@ -42,4 +42,14 @@ public abstract class MyCage implements Cage {
             throw new IllegalArgumentException("Can not put this animal");
         }
     }
+
+    @Override
+    public String toString() {
+        return "MyCage{" +
+                "number=" + number +
+                ", area=" + area +
+                ", condition=" + condition +
+                ", animal=" + animal +
+                '}';
+    }
 }

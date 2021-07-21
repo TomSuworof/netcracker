@@ -15,28 +15,20 @@ public class ConsoleParser implements Parser {
         try {
             String command = expression.trim().split(" ")[0];
 
-            if (command.equals("log")) {
-                zoo.getHistory().forEach(System.out::println);
-            } else if (command.equals("check-in")) {
-                String animalData = expression.substring(command.length()).trim();
-                String species = animalData.split(" ")[0];
-                String name = animalData.split(" ")[1];
-
-                checkInAnimal(species, name);
-//                switch (command) {
-//                    case "check-in" -> checkInAnimal(species, name);
-//                    case "check-out" ->
-//                    case "exit" -> {}
-//                    default -> throw new IllegalArgumentException("I do not know this command. Try again");
-//                }
-            } else if (command.equals("check-out")) {
-                String name = expression.substring(command.length()).trim();
-
-                checkOutAnimal(name);
-            } else if (command.equals("exit")) {
-                System.out.println("Exiting...");
-            } else {
-                throw new IllegalArgumentException("I do not know this command. Try again");
+            switch (command) {
+                case "log" -> zoo.getHistory().forEach(System.out::println);
+                case "check-in" -> {
+                    String animalData = expression.substring(command.length()).trim();
+                    String species = animalData.split(" ")[0];
+                    String name = animalData.split(" ")[1];
+                    checkInAnimal(species, name);
+                }
+                case "check-out" -> {
+                    String name = expression.substring(command.length()).trim();
+                    checkOutAnimal(name);
+                }
+                case "exit" -> System.out.println("Exiting...");
+                default -> throw new IllegalArgumentException("I do not know this command. Try again");
             }
         } catch (IndexOutOfBoundsException e) {
             System.out.println("I do not know this operation. Check your input");
@@ -48,6 +40,7 @@ public class ConsoleParser implements Parser {
     @Override
     public void linkToZoo(Zoo zoo) {
         this.zoo = zoo;
+        System.out.println("Welcome to Zoo Manager");
     }
 
     private Animal createAnimal(String species, String name) throws IllegalFormatException {
