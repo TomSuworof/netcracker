@@ -27,7 +27,7 @@ public class ConsoleParser implements Parser {
                     String name = expression.substring(command.length()).trim();
                     checkOutAnimal(name);
                 }
-                case "exit" -> System.out.println("Exiting...");
+                case "exit" -> {}
                 default -> throw new IllegalArgumentException("I do not know this command. Try again");
             }
         } catch (IndexOutOfBoundsException e) {

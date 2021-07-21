@@ -33,6 +33,8 @@ public class Main {
             } while (!input.equals("exit"));
         } catch (IOException e) {
             System.out.println("Something went wrong");
+        } finally {
+            System.out.println("Exiting...");
         }
 
     }

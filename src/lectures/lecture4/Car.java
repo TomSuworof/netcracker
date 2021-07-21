@@ -49,10 +49,31 @@ public class Car {
         private Wheels wheels;
         private Color color;
 
-        public Car build() throws NoSuchFieldException {
-            if (this.engine == null || this.wheels == null || this.color == null) {
-                throw new NoSuchFieldException("Not enough data for making car");
+        public Car build() throws NotEnoughDataForCarBuildingException {
+//            if (this.engine == null || this.wheels == null || this.color == null) {
+//                throw new NoSuchFieldException("Not enough data for making car");
+//            }
+//
+            StringBuilder str = new StringBuilder("Required: ");
+            boolean isSomethingMissing = false;
+            if (this.engine == null) {
+                isSomethingMissing = true;
+                str.append("engine, ");
             }
+            if (this.wheels == null) {
+                isSomethingMissing = true;
+                str.append("wheels, ");
+            }
+            if (this.color == null) {
+                isSomethingMissing = true;
+                str.append("color, ");
+            }
+            str = new StringBuilder(str.substring(0, str.length() - 2));
+
+            if (isSomethingMissing) {
+                throw new NotEnoughDataForCarBuildingException(str.toString());
+            }
+
             return new Car(engine, wheels, color);
         }
 
