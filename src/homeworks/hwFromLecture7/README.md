@@ -46,6 +46,8 @@
 Welcome to Zoo Manager
 > check-in lion leo
 Welcome to the family, lion Leo
+> check-in penguin leo
+We already have Leo. It is LION
 > CHECK-IN GIRAFFE TALLY
 Welcome to the family, giraffe Tally
 > cHeCk-In pEngUin lolo
