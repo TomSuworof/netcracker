@@ -10,7 +10,7 @@ public abstract class MyAnimal implements Animal {
     protected Species species;
 
     public MyAnimal(String name) {
-        this.name = name;
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(); // capitalizing;
     }
 
     @Override
@@ -25,7 +25,7 @@ public abstract class MyAnimal implements Animal {
 
     @Override
     public String toString() {
-        return species.name() + " " + name;
+        return species.name().toLowerCase() + " " + name;
     }
 
     @Override

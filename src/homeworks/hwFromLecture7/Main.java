@@ -25,6 +25,7 @@ public class Main {
         parser.linkToZoo(zoo);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("Welcome to Zoo Manager");
             String input;
             do {
                 System.out.print("> ");

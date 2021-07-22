@@ -14,20 +14,27 @@ public class ConsoleParser implements Parser {
     public void parse(String expression) {
         try {
             String command = expression.trim().split(" ")[0];
+            String arguments = expression.substring(command.length()).trim();
 
-            switch (command) {
-                case "log" -> zoo.getHistory().forEach(System.out::println);
+            switch (command.toLowerCase()) {
+                case "log" -> {
+                    if (arguments.equals("")) {
+                        zoo.getHistory().forEach(System.out::println);
+                    } else {
+                        throw new IllegalArgumentException("I do not know this command. Try again");
+                    }
+                }
                 case "check-in" -> {
-                    String animalData = expression.substring(command.length()).trim();
-                    String species = animalData.split(" ")[0];
-                    String name = animalData.split(" ")[1];
+                    String species = arguments.split(" ")[0];
+                    String name = arguments.split(" ")[1];
                     checkInAnimal(species, name);
                 }
-                case "check-out" -> {
-                    String name = expression.substring(command.length()).trim();
-                    checkOutAnimal(name);
+                case "check-out" -> checkOutAnimal(arguments);
+                case "exit" -> {
+                    if (!arguments.equals("")) {
+                        throw new IllegalArgumentException("I do not know this command. Try again");
+                    }
                 }
-                case "exit" -> {}
                 default -> throw new IllegalArgumentException("I do not know this command. Try again");
             }
         } catch (IndexOutOfBoundsException e) {
@@ -40,7 +47,6 @@ public class ConsoleParser implements Parser {
     @Override
     public void linkToZoo(Zoo zoo) {
         this.zoo = zoo;
-        System.out.println("Welcome to Zoo Manager");
     }
 
     private Animal createAnimal(String species, String name) throws IllegalFormatException {
