@@ -6,6 +6,8 @@ import homeworks.hwFromLecture7.model.Species;
 import java.util.Objects;
 
 public abstract class MyAnimal implements Animal {
+    private static final String ANIMAL_UNAVAILABLE =  "We can not have this kind of animal";
+
     protected final String name;
     protected Species species;
 
@@ -31,9 +33,9 @@ public abstract class MyAnimal implements Animal {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Animal)) return false;
         MyAnimal myAnimal = (MyAnimal) o;
-        return name.equals(myAnimal.name) && species == myAnimal.species;
+        return name.equals(myAnimal.getName());
     }
 
     @Override
@@ -44,25 +46,13 @@ public abstract class MyAnimal implements Animal {
     public static class AnimalBuilder {
 
         public Animal getAnimal(String species, String name) {
-//            switch (species.toLowerCase()) {
-//                case "lion":
-//                    return new Leon(name);
-//                case "giraffe":
-//                    return new Giraffe(name);
-//                case "penguin":
-//                    return new Penguin(name);
-//                case "squirrel":
-//                    return new Squirrel(name);
-//                default:
-//                    throw new IllegalArgumentException("We can not have this kind of animal");
-//            }
             return switch (species.toLowerCase()) {
                 case "lion" -> new Lion(name);
                 case "giraffe" -> new Giraffe(name);
                 case "penguin" -> new Penguin(name);
                 case "squirrel" -> new Squirrel(name);
-                default -> throw new IllegalArgumentException("We can not have this kind of animal");
-            }; // more modern look
+                default -> throw new IllegalArgumentException(ANIMAL_UNAVAILABLE);
+            };
         }
     }
 }

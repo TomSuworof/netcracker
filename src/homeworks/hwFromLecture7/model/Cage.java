@@ -16,4 +16,6 @@ public interface Cage {
     Condition getCondition();
 
     boolean isVacantCage();
+
+    void setAnimal(Animal animal);
 }

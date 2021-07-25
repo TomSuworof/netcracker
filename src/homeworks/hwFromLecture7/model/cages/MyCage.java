@@ -3,16 +3,22 @@ package homeworks.hwFromLecture7.model.cages;
 import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Cage;
 import homeworks.hwFromLecture7.model.Condition;
+import homeworks.hwFromLecture7.model.Species;
 
-public abstract class MyCage implements Cage {
-    protected final int number;
-    protected final double area;
-    protected Condition condition;
-    protected Animal animal;
+import java.util.List;
 
-    public MyCage(int number, double area) {
+public class MyCage implements Cage {
+    private static final String CAGE_UNAVAILABLE = "Can not put this animal";
+
+    private final int number;
+    private final double area;
+    private final Condition condition;
+    private Animal animal;
+
+    public MyCage(int number, double area, List<Species> species) {
         this.number = number;
         this.area = area;
+        this.condition = () -> species;
     }
 
     @Override
@@ -35,11 +41,12 @@ public abstract class MyCage implements Cage {
         return animal == null;
     }
 
-    protected void setAnimal(Animal animal) {
+    @Override
+    public void setAnimal(Animal animal) {
         if (animal == null || getCondition().isAvailableFor().contains(animal.getSpecies())) {
             this.animal = animal;
         } else {
-            throw new IllegalArgumentException("Can not put this animal");
+            throw new IllegalArgumentException(CAGE_UNAVAILABLE);
         }
     }
 

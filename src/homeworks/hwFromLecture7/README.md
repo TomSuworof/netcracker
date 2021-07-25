@@ -45,73 +45,53 @@
 ```
 Welcome to Zoo Manager
 > check-in lion leo
-Welcome to the family, lion Leo
+Success
 > check-in penguin leo
-We already have Leo. It is LION
+We already have this animal
 > CHECK-IN GIRAFFE TALLY
-Welcome to the family, giraffe Tally
-> cHeCk-In pEngUin lolo
-Welcome to the family, penguin Lolo
+Success
+> cHeCk-In penguin lOlO
+Success
 > check-in squirrel chip
-Welcome to the family, squirrel Chip
+Success
 > check-in penguin pepe
-Sorry, we do not have place for penguin Pepe
+Sorry, we do not have place for this animal
 > check-in hippopotamus gloria
 We can not have this kind of animal
 > log
-InhibitionLog{checkInDate=Thu Jul 22 11:29:31 MSK 2021, checkOutDate=null, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:44 MSK 2021, checkOutDate=null, animalSpecies=GIRAFFE, animalName='Tally'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:57 MSK 2021, checkOutDate=null, animalSpecies=PENGUIN, animalName='Lolo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:30:16 MSK 2021, checkOutDate=null, animalSpecies=SQUIRREL, animalName='Chip'}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:48:35 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:48:51 MSK 2021, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:49:10 MSK 2021, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:49:18 MSK 2021, animal=squirrel Chip}
+Success
 > check-out leo
-Searching through our pets...
-Bye, lion Leo
+Success
 > check-out giraffe tally
-Searching through our pets...
-We do not have giraffe tally
+We do not have this animal
 > check-out tally
-Searching through our pets...
-Bye, giraffe Tally
+Success
 > check-out lolo
-Searching through our pets...
-Bye, penguin Lolo
+Success
 > check-out pepe
-Searching through our pets...
-We do not have pepe
+We do not have this animal
+> check-out pepe
+We do not have this animal
 > check-out chip
-Searching through our pets...
-Bye, squirrel Chip
-> check-inout lion bonifacio
-I do not know this command. Try again
+Success
+> check-inout bonifacio
+Sorry, I do not know this command
 > log
-InhibitionLog{checkInDate=Thu Jul 22 11:29:31 MSK 2021, checkOutDate=Thu Jul 22 11:30:58 MSK 2021, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:44 MSK 2021, checkOutDate=Thu Jul 22 11:32:26 MSK 2021, animalSpecies=GIRAFFE, animalName='Tally'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:57 MSK 2021, checkOutDate=Thu Jul 22 11:32:40 MSK 2021, animalSpecies=PENGUIN, animalName='Lolo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:30:16 MSK 2021, checkOutDate=Thu Jul 22 11:32:50 MSK 2021, animalSpecies=SQUIRREL, animalName='Chip'}
-> check-in lion alex
-Welcome to the family, lion Alex
-> check-out lion alex
-Searching through our pets...
-We do not have lion alex
-> log
-InhibitionLog{checkInDate=Thu Jul 22 11:29:31 MSK 2021, checkOutDate=Thu Jul 22 11:30:58 MSK 2021, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:44 MSK 2021, checkOutDate=Thu Jul 22 11:32:26 MSK 2021, animalSpecies=GIRAFFE, animalName='Tally'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:57 MSK 2021, checkOutDate=Thu Jul 22 11:32:40 MSK 2021, animalSpecies=PENGUIN, animalName='Lolo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:30:16 MSK 2021, checkOutDate=Thu Jul 22 11:32:50 MSK 2021, animalSpecies=SQUIRREL, animalName='Chip'}
-InhibitionLog{checkInDate=Thu Jul 22 11:33:15 MSK 2021, checkOutDate=null, animalSpecies=LION, animalName='Alex'}
-> check-out alex
-Searching through our pets...
-Bye, lion Alex
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:48:35 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:48:51 MSK 2021, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:49:10 MSK 2021, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:49:18 MSK 2021, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:50:01 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:50:19 MSK 2021, animal=lion Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:50:27 MSK 2021, animal=lion Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:50:45 MSK 2021, animal=lion Chip}
+Success
 > log all
-I do not know this command. Try again
-> log
-InhibitionLog{checkInDate=Thu Jul 22 11:29:31 MSK 2021, checkOutDate=Thu Jul 22 11:30:58 MSK 2021, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:44 MSK 2021, checkOutDate=Thu Jul 22 11:32:26 MSK 2021, animalSpecies=GIRAFFE, animalName='Tally'}
-InhibitionLog{checkInDate=Thu Jul 22 11:29:57 MSK 2021, checkOutDate=Thu Jul 22 11:32:40 MSK 2021, animalSpecies=PENGUIN, animalName='Lolo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:30:16 MSK 2021, checkOutDate=Thu Jul 22 11:32:50 MSK 2021, animalSpecies=SQUIRREL, animalName='Chip'}
-InhibitionLog{checkInDate=Thu Jul 22 11:33:15 MSK 2021, checkOutDate=Thu Jul 22 11:34:39 MSK 2021, animalSpecies=LION, animalName='Alex'}
-> exit now
-I do not know this command. Try again
+Sorry, I do not know this command
 > exit
 Exiting...
 ```
@@ -121,23 +101,25 @@ Exiting...
 ```
 Welcome to Zoo Manager
 > check-in lion leo
-Welcome to the family, lion Leo
+Success
 > check-in lion alex
-Welcome to the family, lion Alex
+Success
 > log
-InhibitionLog{checkInDate=Thu Jul 22 11:37:13 MSK 2021, checkOutDate=null, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:37:20 MSK 2021, checkOutDate=null, animalSpecies=LION, animalName='Alex'}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:58:32 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:58:41 MSK 2021, animal=lion Alex}
+Success
 > check-out alex
-Searching through our pets...
-Bye, lion Alex
+Success
 > check-out leo
-Searching through our pets...
-Bye, lion Leo
+Success
 > log
-InhibitionLog{checkInDate=Thu Jul 22 11:37:13 MSK 2021, checkOutDate=Thu Jul 22 11:37:37 MSK 2021, animalSpecies=LION, animalName='Leo'}
-InhibitionLog{checkInDate=Thu Jul 22 11:37:20 MSK 2021, checkOutDate=Thu Jul 22 11:37:31 MSK 2021, animalSpecies=LION, animalName='Alex'}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:58:58 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:58:32 MSK 2021, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=Sun Jul 25 17:58:52 MSK 2021, animal=lion Alex}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=Sun Jul 25 17:58:41 MSK 2021, animal=lion Alex}
+Success
 > exit
 Exiting...
 ```
 
-P.S.: задаётся с помощью ZooBuilder. См. комментарии в [Main](https://github.com/TomSuworof/netcracker/blob/a29cd3b9784e7827dd2311797a9a40013ef33abe/src/homeworks/hwFromLecture7/Main.java#L20)
+P.S.: задаётся с помощью ZooBuilder. См. комментарии в [Main](https://github.com/TomSuworof/netcracker/blob/a29cd3b9784e7827dd2311797a9a40013ef33abe/src/homeworks/hwFromLecture7/Main.java#L16)

@@ -1,48 +1,45 @@
 package homeworks.hwFromLecture7;
 
-import homeworks.hwFromLecture7.model.Species;
+import homeworks.hwFromLecture7.model.Animal;
+import homeworks.hwFromLecture7.model.Event;
 
 import java.util.Date;
 
-public class InhabitationLog {
-    private Date checkInDate;
-    private Date checkOutDate;
-    private Species animalSpecies;
-    private String animalName;
+public class InhabitationLog implements Comparable {
+    private final Event event;
+    private final Date date;
+    private final Animal animal;
 
-    public InhabitationLog(final Date checkInDate,
-                           final Date checkOutDate,
-                           final Species animalSpecies,
-                           final String animalName) {
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.animalSpecies = animalSpecies;
-        this.animalName = animalName;
+    public InhabitationLog(final Event event, final Date date, final Animal animal) {
+        this.event = event;
+        this.date = date;
+        this.animal = animal;
     }
 
-    public Date getCheckInDate() {
-        return checkInDate;
+    public Event getEvent() {
+        return event;
     }
 
-    public Date getCheckOutDate() {
-        return checkOutDate;
+    public Date getDate() {
+        return date;
     }
 
-    public Species getAnimalSpecies() {
-        return animalSpecies;
-    }
-
-    public String getAnimalName() {
-        return animalName;
+    public Animal getAnimal() {
+        return animal;
     }
 
     @Override
     public String toString() {
-        return "InhibitionLog{" +
-                "checkInDate=" + checkInDate +
-                ", checkOutDate=" + checkOutDate +
-                ", animalSpecies=" + animalSpecies +
-                ", animalName='" + animalName + '\'' +
+        return "InhabitationLog{" +
+                "event=" + getEvent() +
+                ", date=" + getDate() +
+                ", animal=" + getAnimal() +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        InhabitationLog log = (InhabitationLog) o;
+        return this.date.compareTo(log.getDate());
     }
 }

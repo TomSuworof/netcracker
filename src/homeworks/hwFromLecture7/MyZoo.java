@@ -3,10 +3,7 @@ package homeworks.hwFromLecture7;
 import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Cage;
 import homeworks.hwFromLecture7.model.Species;
-import homeworks.hwFromLecture7.model.cages.CageForGiraffe;
-import homeworks.hwFromLecture7.model.cages.CageForLion;
-import homeworks.hwFromLecture7.model.cages.CageForPenguin;
-import homeworks.hwFromLecture7.model.cages.CageForSquirrel;
+import homeworks.hwFromLecture7.model.cages.MyCage;
 import homeworks.hwFromLecture7.services.ZooLogger;
 
 import java.util.ArrayList;
@@ -15,6 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 public class MyZoo implements Zoo {
+    private static final String ANIMAL_EXISTS = "We already have this animal";
+    private static final String ANIMAL_DOES_NOT_EXIST = "We do not have this animal";
+    private static final String NO_PLACE = "Sorry, we do not have place for this animal";
+    private static final String CAGE_EXISTS = "This cage already exist";
+
     private final List<Cage> cages;
     private final Map<Integer, Animal> animals; // number of cage and animal
     private final ZooLogger zooLogger;
@@ -27,65 +29,54 @@ public class MyZoo implements Zoo {
 
     @Override
     public void checkInAnimal(Animal animal) {
-        for (Animal animalWeHave : animals.values()) {
-            if (animalWeHave.getName().equals(animal.getName())) {
-                throw new IllegalArgumentException("We already have " + animalWeHave.getName() + ". It is " + animalWeHave.getSpecies());
-            }
+        if (animals.containsValue(animal)) {
+            throw new IllegalArgumentException(ANIMAL_EXISTS);
         }
 
         boolean put = false;
-        for (int i = 0; i < cages.size(); i++) {
-            if (cages.get(i).isVacantCage() && cages.get(i).getCondition().isAvailableFor().contains(animal.getSpecies())) {
-                cages.set(i, ZooBuilder.getCageForAnimalWithAnimal(
-                        cages.get(i).getNumber(),
-                        cages.get(i).getArea(),
-                        animal.getSpecies(),
-                        animal
-                ));
-                animals.put(cages.get(i).getNumber(), animal);
+
+        for (Cage cage : cages) {
+            if (cage.isVacantCage() && cage.getCondition().isAvailableFor().contains(animal.getSpecies())) {
+                cage.setAnimal(animal);
+                animals.put(cage.getNumber(), animal);
                 put = true;
                 break;
             }
         }
 
         if (put) {
-            System.out.println("Welcome to the family, " + animal);
             zooLogger.checkInAnimal(animal);
         } else {
-            throw new IllegalArgumentException("Sorry, we do not have place for " + animal);
+            throw new IllegalStateException(NO_PLACE);
         }
     }
 
     @Override
     public void checkOutAnimal(Animal animal) {
         boolean excluded = false;
-        for (int i = 0; i < cages.size(); i++) {
-            Animal animalUnderNumber = animals.get(cages.get(i).getNumber());
+
+        for (Cage cage : cages) {
+            Animal animalUnderNumber = animals.get(cage.getNumber());
             if (animalUnderNumber != null && animalUnderNumber.equals(animal)) {
                 // if we have animal in cage under the number cageNumber
                 // and its name equals to required
-                cages.set(i, ZooBuilder.getCageForAnimalWithAnimal(
-                        cages.get(i).getNumber(),
-                        cages.get(i).getArea(),
-                        animal.getSpecies(),
-                        null
-                ));
-                animals.remove(cages.get(i).getNumber());
+                cage.setAnimal(null);
+                animals.remove(cage.getNumber());
                 excluded = true;
                 break;
             }
         }
+
         if (excluded) {
-            System.out.println("Bye, " + animal);
             zooLogger.checkOutAnimal(animal);
         } else {
-            throw new IllegalArgumentException("We do not have " + animal);
+            throw new IllegalArgumentException(ANIMAL_DOES_NOT_EXIST);
         }
     }
 
     @Override
     public List<InhabitationLog> getHistory() {
-        return zooLogger.getHistory();
+        return new ArrayList<>(zooLogger.getHistory());
     }
 
     public static class ZooBuilder {
@@ -102,36 +93,14 @@ public class MyZoo implements Zoo {
         public ZooBuilder buildCageFor(Species species, int number, double area) {
             for (Cage cage : cages) {
                 if (cage.getNumber() == number) {
-                    throw new IllegalArgumentException("This cage already exist");
+                    throw new IllegalArgumentException(CAGE_EXISTS);
                 }
             }
 
             // we can create for animal without animal
             // for example, we can have some toys and nuts for squirrel, but we do not have one
-            cages.add(getCageForAnimalWithAnimal(number, area, species, null));
+            cages.add(new MyCage(number, area, List.of(species)));
             return this;
-        }
-
-        private static Cage getCageForAnimalWithAnimal(int number, double area, Species species, Animal animal) {
-//            switch (species) {
-//                case LION:
-//                    return new CageForLeon(number, area, animal);
-//                case GIRAFFE:
-//                    return new CageForGiraffe(number, area, animal);
-//                case PENGUIN:
-//                    return new CageForPenguin(number, area, animal);
-//                case SQUIRREL:
-//                    return new CageForSquirrel(number, area, animal);
-//                default:
-//                    throw new IllegalArgumentException("We can not have this kind of animal");
-//            }
-            return switch (species) {
-                case LION -> new CageForLion(number, area, animal);
-                case GIRAFFE -> new CageForGiraffe(number, area, animal);
-                case PENGUIN -> new CageForPenguin(number, area, animal);
-                case SQUIRREL -> new CageForSquirrel(number, area, animal);
-                default -> throw new IllegalArgumentException("We can not have this kind of animal");
-            }; // more modern look
         }
     }
 }

@@ -2,49 +2,34 @@ package homeworks.hwFromLecture7.services;
 
 import homeworks.hwFromLecture7.InhabitationLog;
 import homeworks.hwFromLecture7.model.Animal;
+import homeworks.hwFromLecture7.model.Event;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ZooLogger {
-    private final List<InhabitationLog> history;
+    private final Set<InhabitationLog> history;
 
     public ZooLogger() {
-        this.history = new ArrayList<>();
+        this.history = new HashSet<>();
     }
 
-    public List<InhabitationLog> getHistory() {
+    public Set<InhabitationLog> getHistory() {
         return history;
     }
 
     public void checkInAnimal(Animal animal) {
-        history.add(new InhabitationLog(
-                new Date(),
-                null,
-                animal.getSpecies(),
-                animal.getName()
-        ));
+        this.logAnimal(animal, Event.ANIMAL_CHECKED_IN);
     }
 
     public void checkOutAnimal(Animal animal) {
-        int animalIndex = getIndexOfAnimalData(animal);
-        InhabitationLog oldData = history.get(animalIndex);
-        history.set(animalIndex, new InhabitationLog(
-                oldData.getCheckInDate(),
-                new Date(),
-                oldData.getAnimalSpecies(),
-                oldData.getAnimalName()
-        ));
+        this.logAnimal(animal, Event.ANIMAL_CHECKED_OUT);
     }
 
-    private int getIndexOfAnimalData(Animal animal) {
-        for (int i = 0; i < history.size(); i++) {
-            if (history.get(i).getAnimalName().equals(animal.getName())
-                    && history.get(i).getAnimalSpecies().equals(animal.getSpecies())) {
-                return i;
-            }
-        }
-        return -1;
+    private void logAnimal(Animal animal, Event event) {
+        history.add(new InhabitationLog(
+                event,
+                new Date(),
+                animal
+        ));
     }
 }
