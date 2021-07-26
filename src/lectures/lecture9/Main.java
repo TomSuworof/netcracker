@@ -1,14 +1,22 @@
 package lectures.lecture9;
 
-import java.io.Console;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
+
+        try  {
+            byte[] input = new byte[10];
+            System.out.println(System.in.read(input));
+            System.out.println(Arrays.toString(input));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         File file = new File("D:\\data_science");
 
         try {
