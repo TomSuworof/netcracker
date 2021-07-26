@@ -1,7 +1,5 @@
 package lectures.lecture3;
 
-import java.util.Objects;
-
 public class Singleton {
     private static Singleton instance;
     private String message = "Hello, world";
