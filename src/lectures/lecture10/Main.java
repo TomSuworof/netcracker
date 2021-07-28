@@ -18,6 +18,9 @@ abstract public class Main { // да, абстрактный класс для m
         OrderingInitChecker.NestedClass nestedClass = new OrderingInitChecker.NestedClass();
         nestedClass.doLogic(); // только тело метода вложенного класса, т.к. внешний класс не загружается
 
+        OrderingInitChecker checker3 = null;
+        checker3.doLogic(); // checker3 still execute method
+
         try {
             exit(0);
         } finally {
