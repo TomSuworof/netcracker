@@ -20,7 +20,6 @@ public class Main {
                 .filter(val -> val >= 5 && val <= 10)
                 .max()
                 .ifPresent(System.out::println);
-
     }
 
     public static Validation getValidation() {
