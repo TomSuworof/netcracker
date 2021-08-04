@@ -1,12 +1,10 @@
 package homeworks.hwFromLecture7;
 
+import homeworks.hwFromLecture7.database.ZooDatasource;
+import homeworks.hwFromLecture7.database.ZooDatasourcePostgres;
 import homeworks.hwFromLecture7.model.Species;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 /*
         steps for initializing zoo:
@@ -20,22 +18,9 @@ import java.sql.Statement;
 public class DBSample {
     public static void main(String[] args) {
 
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        try (ZooDatasource datasource = ZooDatasourcePostgres.getInstance()) {
 
-        Connection conn = null;
-
-        try {
-            conn = DriverManager.getConnection(
-                    System.getenv("ZOO_DATASOURCE_URL"),
-                    System.getenv("ZOO_DATASOURCE_USERNAME"),
-                    System.getenv("ZOO_DATASOURCE_PASSWORD")
-            );
-
-            ResultSet set = conn.createStatement().executeQuery("select species_name from species;");
+            ResultSet set = datasource.execute("select species_name from species;");
 
             while (set.next()) {
                 String spec = set.getString("species_name");
@@ -44,14 +29,6 @@ public class DBSample {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
         }
     }
 }
