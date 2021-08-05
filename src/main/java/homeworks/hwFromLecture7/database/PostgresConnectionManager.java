@@ -11,18 +11,21 @@ public class PostgresConnectionManager implements ConnectionManager {
     private static final String PASSWORD = System.getenv("ZOO_DATASOURCE_PASSWORD");
 
     private static ConnectionManager instance;
-    private final Connection conn;
+    private static Connection conn;
 
-    private PostgresConnectionManager() throws SQLException, ClassNotFoundException {
+    private PostgresConnectionManager() throws ClassNotFoundException {
         Class.forName(DRIVER);
-
-        conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 
     public static ConnectionManager getInstance() throws SQLException, ClassNotFoundException {
         if (instance == null) {
             instance = new PostgresConnectionManager();
         }
+
+        if (conn == null || conn.isClosed()) {
+            conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        }
+
         return instance;
     }
 

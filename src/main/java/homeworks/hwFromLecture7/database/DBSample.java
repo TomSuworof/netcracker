@@ -1,10 +1,13 @@
 package homeworks.hwFromLecture7.database;
 
+import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Species;
 import homeworks.hwFromLecture7.repositories.AnimalRepository;
 import homeworks.hwFromLecture7.repositories.AnimalRepositoryImpl;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 
 /*
         steps for initializing zoo:
@@ -17,10 +20,14 @@ import java.sql.ResultSet;
 
 public class DBSample {
     public static void main(String[] args) {
+        try {
+            AnimalRepository repository = new AnimalRepositoryImpl(PostgresConnectionManager.class);
 
-        AnimalRepository repository = new AnimalRepositoryImpl(PostgresConnectionManager.class);
-
-        repository.findAnimalByName("King");
+            Optional<Animal> animal = repository.findAnimalByName("King");
+            animal.ifPresent(System.out::println);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         try (ConnectionManager datasource = PostgresConnectionManager.getInstance()) {
 
@@ -30,7 +37,6 @@ public class DBSample {
                 String spec = set.getString("species_name");
                 System.out.println(Species.valueOf(spec));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
