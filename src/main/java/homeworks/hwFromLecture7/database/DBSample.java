@@ -1,8 +1,8 @@
-package homeworks.hwFromLecture7;
+package homeworks.hwFromLecture7.database;
 
-import homeworks.hwFromLecture7.database.ZooDatasource;
-import homeworks.hwFromLecture7.database.ZooDatasourcePostgres;
 import homeworks.hwFromLecture7.model.Species;
+import homeworks.hwFromLecture7.repositories.AnimalRepository;
+import homeworks.hwFromLecture7.repositories.AnimalRepositoryImpl;
 
 import java.sql.ResultSet;
 
@@ -18,9 +18,13 @@ import java.sql.ResultSet;
 public class DBSample {
     public static void main(String[] args) {
 
-        try (ZooDatasource datasource = ZooDatasourcePostgres.getInstance()) {
+        AnimalRepository repository = new AnimalRepositoryImpl(PostgresConnectionManager.class);
 
-            ResultSet set = datasource.execute("select species_name from species;");
+        repository.findAnimalByName("King");
+
+        try (ConnectionManager datasource = PostgresConnectionManager.getInstance()) {
+
+            ResultSet set = datasource.getConnection().createStatement().executeQuery("select species_name from species;");
 
             while (set.next()) {
                 String spec = set.getString("species_name");
