@@ -29,7 +29,7 @@ public class ZooLogger {
         history.add(new InhabitationLog(
                 event,
                 new Date(),
-                animal.toString()
+                animal
         ));
     }
 }

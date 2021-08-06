@@ -3,14 +3,14 @@
 ## Homework from lecture 7 (19.07.2021)
 
 ### Задание:
-Реализуем зоопарк, животные могут прибывать и убывать из зоопарка.
-Так же ведем журнал учета всех вновь прибывших и тех кто убыл
-ввод данных осуществляется с консоли
-инициализироваться зоопарк должен сам, по умолчанию свободны по одной клетке для животных каждого типа
+Реализуем зоопарк, животные могут прибывать и убывать из зоопарка. Так же ведем журнал учета всех вновь прибывших и тех
+кто убыл ввод данных осуществляется с консоли инициализироваться зоопарк должен сам, по умолчанию свободны по одной 
+клетке для животных каждого типа
 
 * Нужно реализовать Животных [Animal](model/Animal.java) всех типов, те что описаны в [Species](model/Species.java)
 * Нужно реализовать Клетки для животных, интерфейс для клетки [Cage](model/Cage.java)
-* Нужно реализовать Условия для клетки [Condition](model/Condition.java), кто в ней может жить, одна клетка подходит только одному виду животного
+* Нужно реализовать Условия для клетки [Condition](model/Condition.java), кто в ней может жить, одна клетка подходит 
+только одному виду животного
 * Нужно реализовать Зоопарк [Zoo](Zoo.java), читайте описание в java doc у интерфейса
 * Нужно реализовать класс, который будет ждать ввода с консоли и выполнять соответствующую операцию
   Типы операции:
@@ -123,3 +123,202 @@ Exiting...
 ```
 
 P.S.: задаётся с помощью ZooBuilder. См. комментарии в [Main](https://github.com/TomSuworof/netcracker/blob/a29cd3b9784e7827dd2311797a9a40013ef33abe/src/homeworks/hwFromLecture7/Main.java#L16)
+
+### Вторая часть задания:
+
+Реализуем зоопарк, животные могут прибывать и убывать из зоопарка. Так же ведем журнал учета всех вновь прибывших и тех
+кто убыл ввод данных осуществляется с консоли инициализироваться зоопарк должен из базы данных. Состояние животных и 
+клеток также необходимо сохранять в базу Схема таблиц на ваше усмотрение. Важно что бы Cage, Animal, InhibitionLog были
+в базе и доставались так же из базы. После старта приложение не должно сразу выкачивать все состояние на app level, а 
+работать с объектами непосредственно в момент операции (исключение кеш на клетки - ок).
+
+### Примеры работы:
+
+**1. Холодный старт**
+
+Конфигурация в коде:
+
+```
+DBZoo.ZooBuilder builder = new DBZoo.ZooBuilder(connectionManager)
+                    .buildCageFor(Species.LION, 1 ,50)
+                    .buildCageFor(Species.GIRAFFE, 2, 100)
+                    .buildCageFor(Species.PENGUIN, 3, 40)
+                    .buildCageFor(Species.SQUIRREL, 4, 20);
+```
+
+Начальное состояние БД:
+
+```
+zoo=# select * from animals;
+ animal_name | animal_species
+-------------+----------------
+(0 ёЄЁюъ)
+
+zoo=# select * from cages;
+ cage_number | cage_area | cage_condition | animal_name
+-------------+-----------+----------------+-------------
+(0 ёЄЁюъ)
+
+zoo=# select * from logs;
+ log_id |    event_name     |    animal     |    log_date
+--------+-------------------+---------------+-----------------
+(0 ёЄЁюъ)
+
+```
+
+Запуск. Введённые команды:
+
+```
+Welcome to Zoo Manager
+> check-in lion leo
+Success
+> log
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+Success
+> check-in penguin leo
+We already have this animal
+> check-in giraffe tally
+Success
+> cHeCk-in penguin LOLO
+Sorry, I do not know this command
+> cheCK-in PENGUIN LOLO
+Success
+> check-in squirrel chip
+Success
+> check-in penguin pepe
+Sorry, we do not have place for this animal
+> check-in hippopotamus gloria
+We can not have this kind of animal
+> log
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
+Success
+> check-out leo
+Success
+> check-out giraffe tally
+We do not have this animal
+> check-out tally
+Success
+> check-out lolo
+Success
+> check-out pepe
+We do not have this animal
+> check-out chip
+Success
+> log
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Chip}
+Success
+> exit
+Exiting...
+```
+
+Конечное состояние БД:
+```
+zoo=# select * from animals;
+animal_name | animal_species
+-------------+----------------
+(0 ёЄЁюъ)
+
+
+zoo=# select * from cages;
+cage_number | cage_area | cage_condition | animal_name
+-------------+-----------+----------------+-------------
+1 |        50 | {LION}         |
+2 |       100 | {GIRAFFE}      |
+3 |        40 | {PENGUIN}      |
+4 |        20 | {SQUIRREL}     |
+(4 ёЄЁюъш)
+
+
+zoo=# select * from logs;
+log_id |     event_name     |    animal     |    log_date
+--------+--------------------+---------------+-----------------
+1 | ANIMAL_CHECKED_IN  | lion Leo      | 13:53:31.74+03
+2 | ANIMAL_CHECKED_IN  | giraffe Tally | 13:54:10.494+03
+3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 14:03:14.376+03
+4 | ANIMAL_CHECKED_IN  | squirrel Chip | 14:03:29.864+03
+5 | ANIMAL_CHECKED_OUT | lion Leo      | 14:04:08.721+03
+6 | ANIMAL_CHECKED_OUT | lion Tally    | 14:04:58.374+03
+7 | ANIMAL_CHECKED_OUT | lion Lolo     | 14:05:06.386+03
+8 | ANIMAL_CHECKED_OUT | lion Chip     | 14:05:44.189+03
+(8 ёЄЁюъ)
+```
+
+**2. Старт с пре-конфигурацией**
+
+Конфигурация в коде:
+
+```
+DBZoo.ZooBuilder builder = new DBZoo.ZooBuilder(connectionManager);
+```
+
+Начальное состояние базы - смотри конечное состояние базы выше
+
+Запуск. Введённые команды:
+
+```
+Welcome to Zoo Manager
+> log
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Tally}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Chip}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+Success
+> check-in lion king
+Success
+> check-in lion alex
+Sorry, we do not have place for this animal
+> check-in squirrel dale
+Success
+> exit
+Exiting...
+```
+Конечное состояние базы:
+
+```
+zoo=# select * from animals;
+ animal_name | animal_species
+-------------+----------------
+ King        | LION
+ Dale        | SQUIRREL
+(2 ёЄЁюъш)
+
+
+zoo=# select * from cages;
+ cage_number | cage_area | cage_condition | animal_name
+-------------+-----------+----------------+-------------
+           2 |       100 | {GIRAFFE}      |
+           3 |        40 | {PENGUIN}      |
+           1 |        50 | {LION}         | King
+           4 |        20 | {SQUIRREL}     | Dale
+(4 ёЄЁюъш)
+
+
+zoo=# select * from logs;
+ log_id |     event_name     |    animal     |    log_date
+--------+--------------------+---------------+-----------------
+      1 | ANIMAL_CHECKED_IN  | lion Leo      | 13:53:31.74+03
+      2 | ANIMAL_CHECKED_IN  | giraffe Tally | 13:54:10.494+03
+      3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 14:03:14.376+03
+      4 | ANIMAL_CHECKED_IN  | squirrel Chip | 14:03:29.864+03
+      5 | ANIMAL_CHECKED_OUT | lion Leo      | 14:04:08.721+03
+      6 | ANIMAL_CHECKED_OUT | lion Tally    | 14:04:58.374+03
+      7 | ANIMAL_CHECKED_OUT | lion Lolo     | 14:05:06.386+03
+      8 | ANIMAL_CHECKED_OUT | lion Chip     | 14:05:44.189+03
+      9 | ANIMAL_CHECKED_IN  | lion King     | 14:12:50.496+03
+     10 | ANIMAL_CHECKED_IN  | squirrel Dale | 14:13:32.34+03
+(10 ёЄЁюъ)
+```

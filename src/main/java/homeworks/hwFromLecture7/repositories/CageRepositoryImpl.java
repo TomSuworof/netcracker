@@ -4,6 +4,7 @@ import homeworks.hwFromLecture7.database.ConnectionManager;
 import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Cage;
 import homeworks.hwFromLecture7.model.Species;
+import homeworks.hwFromLecture7.model.animals.MyAnimal;
 import homeworks.hwFromLecture7.model.cages.MyCage;
 
 import java.sql.*;
@@ -23,6 +24,10 @@ public class CageRepositoryImpl implements CageRepository {
     }
 
     private Cage getCageFromSet(ResultSet set) throws SQLException {
+        // required fields for cage: cage_number, cage_area, cage_condition
+        // cage needs animal
+        // required fields for animal: animal_name, animal_species
+
         int cageNumber = set.getInt("cage_number");
         double cageArea = set.getDouble("cage_area");
         String[] cageConditionArray = (String[]) set.getArray("cage_condition").getArray();
@@ -31,17 +36,57 @@ public class CageRepositoryImpl implements CageRepository {
                 .map(Species::valueOf)
                 .collect(Collectors.toList());
 
-        return new MyCage(cageNumber, cageArea, cageSpecies);
+        Cage cage = new MyCage(cageNumber, cageArea, cageSpecies);
+
+        String animalName = set.getString("animal_name");
+
+        if (animalName == null) {
+            cage.setAnimal(null);
+        } else {
+            String animalSpecies = set.getString("animal_species");
+            Animal animal = new MyAnimal.AnimalBuilder().getAnimal(animalSpecies, animalName);
+            cage.setAnimal(animal);
+        }
+
+        return cage;
     }
 
     @Override
-    public Optional<Cage> findCageByNumber(int number) throws SQLException {
+    public Optional<Cage> findCageByAnimalName(String animalName) throws SQLException {
         Cage cage = null;
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM cages WHERE cage_number = ?;");
-        statement.setInt(1, number);
+        PreparedStatement statement = conn.prepareStatement(
+                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name WHERE a.animal_name = ?;"
+        );
+        statement.setString(1, animalName);
+        ResultSet set = statement.executeQuery();
+
+        if (set.next()) {
+            cage = this.getCageFromSet(set);
+
+            if (set.next()) {
+                throw new SQLException(CAGE_DUPLICATE);
+            }
+        }
+
+        return Optional.ofNullable(cage);
+    }
+
+    @Override
+    public Optional<Cage> findEmptyCageAvailTo(String species) throws SQLException {
+        Cage cage = null;
+
+        Connection conn = connectionManager.getConnection();
+
+        PreparedStatement statement = conn.prepareStatement(
+                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name" +
+                        " WHERE a.animal_name IS NULL AND ? = ANY(cage_condition);"
+        );
+        statement.setString(1, species);
         ResultSet set = statement.executeQuery();
 
         if (set.next()) {
@@ -61,7 +106,10 @@ public class CageRepositoryImpl implements CageRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM cages");
+        PreparedStatement statement = conn.prepareStatement(
+                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name;"
+        );
         ResultSet set = statement.executeQuery();
 
         while (set.next()) {
@@ -86,7 +134,9 @@ public class CageRepositoryImpl implements CageRepository {
 
         statement.setInt(1, cage.getNumber());
         statement.setDouble(2, cage.getArea());
-        if (animalInCage != null) {
+        if (animalInCage == null) {
+            statement.setNull(3, Types.VARCHAR);
+        } else {
             statement.setString(3, animalInCage.getName());
         }
 
@@ -95,17 +145,6 @@ public class CageRepositoryImpl implements CageRepository {
         Array speciesArray = conn.createArrayOf("varchar", species);
 
         statement.setArray(4, speciesArray);
-        statement.execute();
-        conn.commit();
-    }
-
-    @Override
-    public void remove(Cage cage) throws SQLException {
-        Connection conn = connectionManager.getConnection();
-
-        conn.setAutoCommit(false);
-        PreparedStatement statement = conn.prepareStatement("DELETE FROM cages WHERE cage_number = ?;");
-        statement.setInt(1, cage.getNumber());
         statement.execute();
         conn.commit();
     }

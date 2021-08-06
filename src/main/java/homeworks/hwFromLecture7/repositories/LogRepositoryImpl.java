@@ -2,12 +2,11 @@ package homeworks.hwFromLecture7.repositories;
 
 import homeworks.hwFromLecture7.InhabitationLog;
 import homeworks.hwFromLecture7.database.ConnectionManager;
+import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Event;
+import homeworks.hwFromLecture7.model.animals.MyAnimal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,10 @@ public class LogRepositoryImpl implements LogRepository {
     private InhabitationLog getLogFromSet(ResultSet set) throws SQLException {
         Event logEvent = Event.valueOf(set.getString("event_name"));
         Date logDate = set.getDate("log_date");
-        String animal = set.getString("animal");
+        String[] animalData = set.getString("animal").trim().split(" ");
+
+        Animal animal = new MyAnimal.AnimalBuilder().getAnimal(animalData[0], animalData[1]);
+
         return new InhabitationLog(logEvent, logDate, animal);
     }
 
@@ -48,10 +50,10 @@ public class LogRepositoryImpl implements LogRepository {
         Connection conn = connectionManager.getConnection();
 
         conn.setAutoCommit(false);
-        PreparedStatement statement = conn.prepareStatement("INSERT INTO logs(event_name, animal_name, log_date) VALUES (?, ?, ?);");
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO logs(event_name, animal, log_date) VALUES (?, ?, ?);");
         statement.setString(1, log.getEvent().name());
-        statement.setString(2, log.getAnimal());
-        statement.setDate(3, new java.sql.Date(log.getDate().getTime()));
+        statement.setString(2, log.getAnimal().toString());
+        statement.setTime(3, new Time(log.getDate().getTime()));
         statement.execute();
         conn.commit();
     }

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CageRepository {
-    Optional<Cage> findCageByNumber(int number) throws SQLException;
+    Optional<Cage> findCageByAnimalName(String name) throws SQLException;
+
+    Optional<Cage> findEmptyCageAvailTo(String species) throws SQLException;
 
     List<Cage> findAll() throws SQLException;
 
     void saveCageWithAnimal(Cage cage, Animal animal) throws SQLException;
-
-    void remove(Cage cage) throws SQLException;
 }
