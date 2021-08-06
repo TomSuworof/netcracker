@@ -173,15 +173,13 @@ Welcome to Zoo Manager
 > check-in lion leo
 Success
 > log
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:40:48.739, animal=lion Leo}
 Success
-> check-in penguin leo
+> CHECK-IN PENGUIN LEO
 We already have this animal
-> check-in giraffe tally
+> cHeCk-in gIrAffE tALLy
 Success
-> cHeCk-in penguin LOLO
-Sorry, I do not know this command
-> cheCK-in PENGUIN LOLO
+> check-in penguin lolo
 Success
 > check-in squirrel chip
 Success
@@ -190,15 +188,13 @@ Sorry, we do not have place for this animal
 > check-in hippopotamus gloria
 We can not have this kind of animal
 > log
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:43.843, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:59.727, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:31.995, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:40:48.739, animal=lion Leo}
 Success
 > check-out leo
 Success
-> check-out giraffe tally
-We do not have this animal
 > check-out tally
 Success
 > check-out lolo
@@ -208,48 +204,49 @@ We do not have this animal
 > check-out chip
 Success
 > log
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Tally}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Lolo}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Leo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:39.301, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:43.843, animal=penguin Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:50.829, animal=lion Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:43:10.939, animal=lion Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:57.474, animal=lion Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:40:48.739, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:59.727, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:31.995, animal=giraffe Tally}
 Success
 > exit
 Exiting...
+
 ```
 
 Конечное состояние БД:
 ```
 zoo=# select * from animals;
-animal_name | animal_species
+ animal_name | animal_species
 -------------+----------------
 (0 ёЄЁюъ)
 
 
 zoo=# select * from cages;
-cage_number | cage_area | cage_condition | animal_name
+ cage_number | cage_area | cage_condition | animal_name
 -------------+-----------+----------------+-------------
-1 |        50 | {LION}         |
-2 |       100 | {GIRAFFE}      |
-3 |        40 | {PENGUIN}      |
-4 |        20 | {SQUIRREL}     |
+           1 |        50 | {LION}         |
+           2 |       100 | {GIRAFFE}      |
+           3 |        40 | {PENGUIN}      |
+           4 |        20 | {SQUIRREL}     |
 (4 ёЄЁюъш)
 
 
 zoo=# select * from logs;
-log_id |     event_name     |    animal     |    log_date
---------+--------------------+---------------+-----------------
-1 | ANIMAL_CHECKED_IN  | lion Leo      | 13:53:31.74+03
-2 | ANIMAL_CHECKED_IN  | giraffe Tally | 13:54:10.494+03
-3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 14:03:14.376+03
-4 | ANIMAL_CHECKED_IN  | squirrel Chip | 14:03:29.864+03
-5 | ANIMAL_CHECKED_OUT | lion Leo      | 14:04:08.721+03
-6 | ANIMAL_CHECKED_OUT | lion Tally    | 14:04:58.374+03
-7 | ANIMAL_CHECKED_OUT | lion Lolo     | 14:05:06.386+03
-8 | ANIMAL_CHECKED_OUT | lion Chip     | 14:05:44.189+03
+ log_id |     event_name     |    animal     |          log_date
+--------+--------------------+---------------+----------------------------
+      1 | ANIMAL_CHECKED_IN  | lion Leo      | 2021-08-06 15:40:48.739+03
+      2 | ANIMAL_CHECKED_IN  | giraffe Tally | 2021-08-06 15:41:31.995+03
+      3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 2021-08-06 15:41:43.843+03
+      4 | ANIMAL_CHECKED_IN  | squirrel Chip | 2021-08-06 15:41:59.727+03
+      5 | ANIMAL_CHECKED_OUT | lion Leo      | 2021-08-06 15:42:39.301+03
+      6 | ANIMAL_CHECKED_OUT | lion Tally    | 2021-08-06 15:42:50.829+03
+      7 | ANIMAL_CHECKED_OUT | lion Lolo     | 2021-08-06 15:42:57.474+03
+      8 | ANIMAL_CHECKED_OUT | lion Chip     | 2021-08-06 15:43:10.939+03
 (8 ёЄЁюъ)
 ```
 
@@ -268,14 +265,14 @@ DBZoo.ZooBuilder builder = new DBZoo.ZooBuilder(connectionManager);
 ```
 Welcome to Zoo Manager
 > log
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=giraffe Tally}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Lolo}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Tally}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=squirrel Chip}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Leo}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=penguin Lolo}
-InhabitationLog{event=ANIMAL_CHECKED_OUT, date=1970-01-01, animal=lion Chip}
-InhabitationLog{event=ANIMAL_CHECKED_IN, date=1970-01-01, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:59.727, animal=squirrel Chip}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:31.995, animal=giraffe Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:43:10.939, animal=lion Chip}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:50.829, animal=lion Tally}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:57.474, animal=lion Lolo}
+InhabitationLog{event=ANIMAL_CHECKED_OUT, date=2021-08-06 15:42:39.301, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:40:48.739, animal=lion Leo}
+InhabitationLog{event=ANIMAL_CHECKED_IN, date=2021-08-06 15:41:43.843, animal=penguin Lolo}
 Success
 > check-in lion king
 Success
@@ -308,17 +305,17 @@ zoo=# select * from cages;
 
 
 zoo=# select * from logs;
- log_id |     event_name     |    animal     |    log_date
---------+--------------------+---------------+-----------------
-      1 | ANIMAL_CHECKED_IN  | lion Leo      | 13:53:31.74+03
-      2 | ANIMAL_CHECKED_IN  | giraffe Tally | 13:54:10.494+03
-      3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 14:03:14.376+03
-      4 | ANIMAL_CHECKED_IN  | squirrel Chip | 14:03:29.864+03
-      5 | ANIMAL_CHECKED_OUT | lion Leo      | 14:04:08.721+03
-      6 | ANIMAL_CHECKED_OUT | lion Tally    | 14:04:58.374+03
-      7 | ANIMAL_CHECKED_OUT | lion Lolo     | 14:05:06.386+03
-      8 | ANIMAL_CHECKED_OUT | lion Chip     | 14:05:44.189+03
-      9 | ANIMAL_CHECKED_IN  | lion King     | 14:12:50.496+03
-     10 | ANIMAL_CHECKED_IN  | squirrel Dale | 14:13:32.34+03
+ log_id |     event_name     |    animal     |          log_date
+--------+--------------------+---------------+----------------------------
+      1 | ANIMAL_CHECKED_IN  | lion Leo      | 2021-08-06 15:40:48.739+03
+      2 | ANIMAL_CHECKED_IN  | giraffe Tally | 2021-08-06 15:41:31.995+03
+      3 | ANIMAL_CHECKED_IN  | penguin Lolo  | 2021-08-06 15:41:43.843+03
+      4 | ANIMAL_CHECKED_IN  | squirrel Chip | 2021-08-06 15:41:59.727+03
+      5 | ANIMAL_CHECKED_OUT | lion Leo      | 2021-08-06 15:42:39.301+03
+      6 | ANIMAL_CHECKED_OUT | lion Tally    | 2021-08-06 15:42:50.829+03
+      7 | ANIMAL_CHECKED_OUT | lion Lolo     | 2021-08-06 15:42:57.474+03
+      8 | ANIMAL_CHECKED_OUT | lion Chip     | 2021-08-06 15:43:10.939+03
+      9 | ANIMAL_CHECKED_IN  | lion King     | 2021-08-06 15:45:35.729+03
+     10 | ANIMAL_CHECKED_IN  | squirrel Dale | 2021-08-06 15:45:54.458+03
 (10 ёЄЁюъ)
 ```
