@@ -1,6 +1,5 @@
 package homeworks.hwFromLecture7;
 
-import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Event;
 
 import java.util.Date;
@@ -8,9 +7,9 @@ import java.util.Date;
 public class InhabitationLog implements Comparable {
     private final Event event;
     private final Date date;
-    private final Animal animal;
+    private final String animal;
 
-    public InhabitationLog(final Event event, final Date date, final Animal animal) {
+    public InhabitationLog(final Event event, final Date date, final String animal) {
         this.event = event;
         this.date = date;
         this.animal = animal;
@@ -24,7 +23,7 @@ public class InhabitationLog implements Comparable {
         return date;
     }
 
-    public Animal getAnimal() {
+    public String getAnimal() {
         return animal;
     }
 
