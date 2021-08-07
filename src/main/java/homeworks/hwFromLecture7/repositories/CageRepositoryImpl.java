@@ -17,6 +17,22 @@ import java.util.stream.Collectors;
 public class CageRepositoryImpl implements CageRepository {
     private static final String CAGE_DUPLICATE = "There are two cages with the same number";
 
+    private static final String FIND_CAGE_BY_ANIMAL_NAME =
+            "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+            " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name WHERE a.animal_name = ?;";
+
+    private static final String FIND_SUITABLE_CAGE =
+            "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+            " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name" +
+            " WHERE a.animal_name IS NULL AND ? = ANY(cage_condition);";
+
+    private static final String FIND_ALL_CAGES =
+            "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
+            " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name;";
+
+    private static final String INSERT_EMPTY_CAGE =
+            "INSERT INTO cages(cage_number, cage_area, cage_condition, animal_name) VALUES (?, ?, ?, ?)";
+
     private final ConnectionManager connectionManager;
 
     public CageRepositoryImpl(ConnectionManager connectionManager) {
@@ -57,10 +73,7 @@ public class CageRepositoryImpl implements CageRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement(
-                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
-                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name WHERE a.animal_name = ?;"
-        );
+        PreparedStatement statement = conn.prepareStatement(FIND_CAGE_BY_ANIMAL_NAME);
         statement.setString(1, animalName);
         ResultSet set = statement.executeQuery();
 
@@ -81,11 +94,7 @@ public class CageRepositoryImpl implements CageRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement(
-                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
-                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name" +
-                        " WHERE a.animal_name IS NULL AND ? = ANY(cage_condition);"
-        );
+        PreparedStatement statement = conn.prepareStatement(FIND_SUITABLE_CAGE);
         statement.setString(1, species);
         ResultSet set = statement.executeQuery();
 
@@ -106,10 +115,7 @@ public class CageRepositoryImpl implements CageRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement(
-                "SELECT cage_number, cage_area, cage_condition, a.animal_name, a.animal_species" +
-                        " FROM cages LEFT JOIN animals a on cages.animal_name = a.animal_name;"
-        );
+        PreparedStatement statement = conn.prepareStatement(FIND_ALL_CAGES);
         ResultSet set = statement.executeQuery();
 
         while (set.next()) {
@@ -121,30 +127,23 @@ public class CageRepositoryImpl implements CageRepository {
     }
 
     @Override
-    public void saveCageWithAnimal(Cage cage, Animal animalInCage) throws SQLException {
+    public void createEmptyCage(Cage cage) throws SQLException {
         Connection conn = connectionManager.getConnection();
 
         conn.setAutoCommit(false);
 
         // insert cage with new animal or update animal
-        PreparedStatement statement = conn.prepareStatement(
-                "INSERT INTO cages(cage_number, cage_area, animal_name, cage_condition) VALUES (?, ?, ?, ?)" +
-                "ON CONFLICT (cage_number) DO UPDATE SET animal_name = excluded.animal_name;"
-        );
+        PreparedStatement statement = conn.prepareStatement(INSERT_EMPTY_CAGE);
 
         statement.setInt(1, cage.getNumber());
         statement.setDouble(2, cage.getArea());
-        if (animalInCage == null) {
-            statement.setNull(3, Types.VARCHAR);
-        } else {
-            statement.setString(3, animalInCage.getName());
-        }
 
         // take species' names from cage's condition
         String[] species = cage.getCondition().isAvailableFor().stream().map(Enum::name).toArray(String[]::new);
         Array speciesArray = conn.createArrayOf("varchar", species);
 
-        statement.setArray(4, speciesArray);
+        statement.setArray(3, speciesArray);
+        statement.setNull(4, Types.VARCHAR);
         statement.execute();
         conn.commit();
     }

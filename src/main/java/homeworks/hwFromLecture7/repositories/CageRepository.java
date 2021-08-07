@@ -1,6 +1,5 @@
 package homeworks.hwFromLecture7.repositories;
 
-import homeworks.hwFromLecture7.model.Animal;
 import homeworks.hwFromLecture7.model.Cage;
 
 import java.sql.SQLException;
@@ -14,5 +13,5 @@ public interface CageRepository {
 
     List<Cage> findAll() throws SQLException;
 
-    void saveCageWithAnimal(Cage cage, Animal animal) throws SQLException;
+    void createEmptyCage(Cage cage) throws SQLException;
 }

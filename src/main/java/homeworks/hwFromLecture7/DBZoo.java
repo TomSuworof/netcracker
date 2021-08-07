@@ -47,8 +47,7 @@ public class DBZoo implements Zoo {
                 Cage cage = cageOpt.get();
                 cage.setAnimal(animal);
 
-                animalRepository.save(animal);
-                cageRepository.saveCageWithAnimal(cage, animal);
+                animalRepository.insertWithCageUpdate(animal, cage);
 
                 zooLogger.checkInAnimal(animal);
             } else {
@@ -70,8 +69,7 @@ public class DBZoo implements Zoo {
                 Cage cage = cageOpt.get();
                 cage.setAnimal(null);
 
-                animalRepository.delete(animal);
-                cageRepository.saveCageWithAnimal(cage, null);
+                animalRepository.deleteWithCageUpdate(animal, cage);
 
                 zooLogger.checkOutAnimal(animal);
             } else {
@@ -109,7 +107,7 @@ public class DBZoo implements Zoo {
                     }
                 }
 
-                cageRepository.saveCageWithAnimal(new MyCage(number, area, List.of(species)), null);
+                cageRepository.createEmptyCage(new MyCage(number, area, List.of(species)));
                 return this;
             } catch (SQLException e) {
                 e.printStackTrace();

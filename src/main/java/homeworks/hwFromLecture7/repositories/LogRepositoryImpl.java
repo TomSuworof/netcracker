@@ -13,6 +13,9 @@ import java.util.Date;
 public class LogRepositoryImpl implements LogRepository {
     private final ConnectionManager connectionManager;
 
+    private static final String FIND_ALL_LOGS = "SELECT * FROM logs;";
+    private static final String INSERT_LOG = "INSERT INTO logs(event_name, animal, log_date) VALUES (?, ?, ?);";
+
     public LogRepositoryImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
@@ -33,7 +36,7 @@ public class LogRepositoryImpl implements LogRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM logs;");
+        PreparedStatement statement = conn.prepareStatement(FIND_ALL_LOGS);
         ResultSet set = statement.executeQuery();
 
         while (set.next()) {
@@ -49,7 +52,7 @@ public class LogRepositoryImpl implements LogRepository {
         Connection conn = connectionManager.getConnection();
 
         conn.setAutoCommit(false);
-        PreparedStatement statement = conn.prepareStatement("INSERT INTO logs(event_name, animal, log_date) VALUES (?, ?, ?);");
+        PreparedStatement statement = conn.prepareStatement(INSERT_LOG);
         statement.setString(1, log.getEvent().name());
         statement.setString(2, log.getAnimal().toString());
         statement.setTimestamp(3, new Timestamp(log.getDate().getTime()));

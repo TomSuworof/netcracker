@@ -2,6 +2,7 @@ package homeworks.hwFromLecture7.repositories;
 
 import homeworks.hwFromLecture7.database.ConnectionManager;
 import homeworks.hwFromLecture7.model.Animal;
+import homeworks.hwFromLecture7.model.Cage;
 import homeworks.hwFromLecture7.model.animals.MyAnimal;
 
 import java.sql.*;
@@ -11,6 +12,15 @@ import java.util.Optional;
 
 public class AnimalRepositoryImpl implements AnimalRepository {
     private static final String ANIMAL_DUPLICATE = "There are two animals with the same name";
+
+    private static final String FIND_ANIMAL_BY_NAME = "SELECT * FROM animals WHERE animal_name = ?;";
+    private static final String FIND_ALL_ANIMALS = "SELECT * FROM  animals;";
+
+    private static final String INSERT_ANIMAL = "INSERT INTO animals(animal_name, animal_species) VALUES (?, ?);";
+    private static final String INSERT_ANIMAL_IN_CAGE = "UPDATE cages SET animal_name = ? WHERE cage_number = ?;";
+
+    private static final String DELETE_ANIMAL_BY_NAME = "DELETE FROM animals WHERE animal_name = ?;";
+    private static final String DELETE_ANIMAL_FROM_CAGE = "UPDATE cages SET animal_name = NULL WHERE cage_number = ?;";
 
     private final ConnectionManager connectionManager;
 
@@ -30,7 +40,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM animals WHERE animal_name = ?;");
+        PreparedStatement statement = conn.prepareStatement(FIND_ANIMAL_BY_NAME);
         statement.setString(1, name);
         ResultSet set = statement.executeQuery();
 
@@ -51,7 +61,7 @@ public class AnimalRepositoryImpl implements AnimalRepository {
 
         Connection conn = connectionManager.getConnection();
 
-        PreparedStatement statement = conn.prepareStatement("SELECT * FROM  animals;");
+        PreparedStatement statement = conn.prepareStatement(FIND_ALL_ANIMALS);
         ResultSet set = statement.executeQuery();
 
         while (set.next()) {
@@ -63,25 +73,38 @@ public class AnimalRepositoryImpl implements AnimalRepository {
     }
 
     @Override
-    public void save(Animal animal) throws SQLException {
+    public void insertWithCageUpdate(Animal animal, Cage cage) throws SQLException {
         Connection conn = connectionManager.getConnection();
 
         conn.setAutoCommit(false);
-        PreparedStatement statement = conn.prepareStatement("INSERT INTO animals(animal_name, animal_species) VALUES (?, ?);");
-        statement.setString(1, animal.getName());
-        statement.setString(2, animal.getSpecies().name());
-        statement.execute();
+
+        PreparedStatement animalStatement = conn.prepareStatement(INSERT_ANIMAL);
+        animalStatement.setString(1, animal.getName());
+        animalStatement.setString(2, animal.getSpecies().name());
+        animalStatement.execute();
+
+        PreparedStatement cageStatement = conn.prepareStatement(INSERT_ANIMAL_IN_CAGE);
+        cageStatement.setString(1, animal.getName());
+        cageStatement.setInt(2, cage.getNumber());
+        cageStatement.execute();
+
         conn.commit();
     }
 
     @Override
-    public void delete(Animal animal) throws SQLException {
+    public void deleteWithCageUpdate(Animal animal, Cage cage) throws SQLException {
         Connection conn = connectionManager.getConnection();
 
         conn.setAutoCommit(false);
-        PreparedStatement statement = conn.prepareStatement("DELETE FROM animals WHERE animal_name = ?;");
-        statement.setString(1, animal.getName());
-        statement.execute();
+
+        PreparedStatement animalStatement = conn.prepareStatement(DELETE_ANIMAL_BY_NAME);
+        animalStatement.setString(1, animal.getName());
+        animalStatement.execute();
+
+        PreparedStatement cageStatement = conn.prepareStatement(DELETE_ANIMAL_FROM_CAGE);
+        cageStatement.setInt(1, cage.getNumber());
+        cageStatement.execute();
+
         conn.commit();
     }
 }
